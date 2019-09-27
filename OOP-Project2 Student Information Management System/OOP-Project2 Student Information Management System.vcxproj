@@ -155,12 +155,12 @@
     <ClCompile Include="SIMS.cpp" />
     <ClCompile Include="SIMS_Search.cpp" />
     <ClCompile Include="student.cpp" />
-    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="StudentDB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SIMS.h" />
     <ClInclude Include="student.h" />
-    <ClInclude Include="tree.h" />
+    <ClInclude Include="StudentDB.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

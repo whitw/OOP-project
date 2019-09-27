@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tree.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="SIMS.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -30,15 +27,18 @@
     <ClCompile Include="student.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="StudentDB.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="student.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="tree.h">
+    <ClInclude Include="SIMS.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SIMS.h">
+    <ClInclude Include="StudentDB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

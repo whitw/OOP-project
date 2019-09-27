@@ -2,8 +2,9 @@
 #include <iostream>
 
 using namespace std;
-SIMS::SIMS() {
-
+SIMS::SIMS(string filename) {
+	SIMS::filename = filename;
+	db = NULL;
 }
 
 void SIMS::start() {
@@ -38,10 +39,6 @@ void SIMS::start() {
 			return;
 	}
 }
-void SIMS::reset() {
-	//reset all variables.
-	//works same as SIMS::~SIMS() -> SIMS::SIMS() but without reallocate data.
-}
 
 void SIMS::show_menu() {
 	cout << "1. Insertion" << endl;
@@ -60,6 +57,7 @@ void SIMS::insertion() {
 	Department ?
 	Tel ?
 	*/
+	cout << "Insertion" << endl;
 }
 
 SIMS::~SIMS() {

@@ -13,6 +13,7 @@ void SIMS::show_search_menu() {
 
 
 void SIMS::search() {
+	cout << "search" << endl;
 }
 
 void SIMS::search_name() {
