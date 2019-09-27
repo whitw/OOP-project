@@ -5,20 +5,63 @@ using namespace std;
 SIMS::SIMS() {
 
 }
+
+void SIMS::start() {
+	int input;
+	SIMS::show_menu();
+	do {
+		cout << ">";
+		cin >> input;
+		if (cin.fail()) { //not integer
+			cout << "Please input integer from 1 to 4" << endl;
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
+		else {
+			if (input < 1 || input > 4) {
+				cout << "Please input integer from 1 to 4" << endl;
+			}
+			else
+				break;
+		}
+	} while (true);
+	//DO TASK
+	switch (input) {
+		case 1://Insertion
+			SIMS::insertion();
+			break;
+		case 2://Search
+			SIMS::search();
+			break;
+		case 3: //EXIT
+			running = false;
+			return;
+	}
+}
+void SIMS::reset() {
+	//reset all variables.
+	//works same as SIMS::~SIMS() -> SIMS::SIMS() but without reallocate data.
+}
+
 void SIMS::show_menu() {
-	
+	cout << "1. Insertion" << endl;
+	cout << "2. Search" << endl;
+	cout << "3. Exit" << endl;
 }
+
+
+
 void SIMS::insertion() {
+	/*
+	- Insertion -
+	Name ?
+	Student ID ?
+	Age ?
+	Department ?
+	Tel ?
+	*/
 }
-void SIMS::search() {
-}
-void SIMS::search_name() {
-}
-void SIMS::search_studentID() {
-}
-void SIMS::search_department() {
-}
-void SIMS::search_age() {
-}
-void SIMS::search_listall() {
+
+SIMS::~SIMS() {
+	cout << "~SIMS()";
 }

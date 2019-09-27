@@ -1,10 +1,18 @@
 #pragma once
+#include "student.h"
 
 class SIMS {
-	//Nothing to store for now...
+	bool running = true;
+	//StudentDB* db = NULL;
+
 public:
 	SIMS();
+	~SIMS();
+	bool isrunning() { return running; }
+	void start();
+	void reset();
 	void show_menu();
+	void show_search_menu();
 	void insertion();
 	void search();
 		void search_name();

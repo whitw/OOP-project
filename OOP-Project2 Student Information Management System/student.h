@@ -3,28 +3,28 @@
 #include <string>
 using namespace std;
 
-class student {
+class Student {
 	string name;
 	int studentID;
 	int age;
 	string department;
 	string tel;
 public:
-	student();
+	Student();
 	
 };
 
 
-class studentDB {
-	vector<student> studentV;
+class StudentDB {
+	vector<Student> studentV;
 public:
-	studentDB() {
+	StudentDB() {
 
 	}
-	void insert(student student);
-	studentDB searchname(string name);
-	studentDB searchID(int id);
-	studentDB searchDepart(string department);
-	studentDB searchAge(int age);
+	void insert(Student student);
+	StudentDB searchname(string name);
+	StudentDB searchID(int id);
+	StudentDB searchDepart(string department);
+	StudentDB searchAge(int age);
 	void print();
 };
