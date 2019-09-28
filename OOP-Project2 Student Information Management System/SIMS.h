@@ -5,9 +5,9 @@
 
 //Student Information Management System
 class SIMS {
-	bool running = true;
-	StudentDB db;
-	string filename;
+	bool running = true; //if running is false, SIMS terminate after current execution.
+	StudentDB db; //Student Database for this session.
+	string filename; //save-load file
 
 	//those will be called by SIMS itself.
 
@@ -25,6 +25,8 @@ class SIMS {
 public:
 	SIMS(string filename);
 	~SIMS();
+
+	//if running is false, SIMS terminate after current execution.
 	bool isrunning() { return running; }
 	//run the SIMS.
 	void start();

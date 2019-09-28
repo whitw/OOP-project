@@ -98,4 +98,5 @@ void SIMS::insertion() {
 }
 
 SIMS::~SIMS() {
+	db.deleteDB();
 }

@@ -4,9 +4,9 @@
 #include "Student.h"
 
 class StudentDB {
-	/*
-	StudentDB manage list of students, reading on and writing to file.
-	*/
+	//StudentDB manage list of students, reading on and writing to file.
+	
+	//store the data using vector<Student*>. They MUST be deleted at last.
 	vector<Student*> studentV;
 	string filename;
 	bool canWriteOnFile = false;
