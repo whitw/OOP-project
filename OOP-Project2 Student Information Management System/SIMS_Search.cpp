@@ -8,7 +8,7 @@ void SIMS::show_search_menu() {
 	cout << "2. Search by student ID (10 numbers)" << endl;
 	cout << "3. Search by department name" << endl;
 	cout << "4. Search by age" << endl;
-	cout << "5. List All" << endl;
+	cout << "5. List All" << endl << endl;
 }
 
 
@@ -64,10 +64,12 @@ void SIMS::search_studentID() {
 	StudentDB* result;
 	cout << "Student ID? ";
 	cin >> input;
-	id = atol(input.c_str());
-	result = db.searchID(id);
-	result->print();
-	delete result;
+	if (input.length() == 10) {
+		id = atol(input.c_str());
+		result = db.searchID(id);
+		result->print();
+		delete result;
+	}
 }
 
 void SIMS::search_department() {

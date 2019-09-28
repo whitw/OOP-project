@@ -11,7 +11,7 @@ void SIMS::start() {
 	int input;
 	SIMS::show_menu();
 	do {
-		cout << ">";
+		cout << "> ";
 		cin >> input;
 		if (cin.fail()) { //not integer
 			cout << "Please input integer between 1 and 3" << endl;
@@ -26,6 +26,7 @@ void SIMS::start() {
 				break;
 		}
 	} while (true);
+	cin.ignore(256, '\n');
 	//DO TASK
 	switch (input) {
 		case 1://Insertion
@@ -36,7 +37,6 @@ void SIMS::start() {
 			break;
 		case 3: //EXIT
 			running = false;
-			db.writeToFile();
 			return;
 	}
 }
@@ -44,7 +44,7 @@ void SIMS::start() {
 void SIMS::show_menu() {
 	cout << "1. Insertion" << endl;
 	cout << "2. Search" << endl;
-	cout << "3. Exit" << endl;
+	cout << "3. Exit" << endl << endl;
 }
 
 void SIMS::insertion() {
@@ -52,18 +52,10 @@ void SIMS::insertion() {
 	string studentID;
 	int age;
 	char department[256];
-	long long int tel;
+	char tel[256];
 	Student* student = new Student();
-	/*
-	- Insertion -
-	Name ?
-	Student ID ?
-	Age ?
-	Department ?
-	Tel ?
-	*/
+
 	cout << "- Insertion -" << endl;
-	cin.ignore(256, '\n');
 	do {
 		cout << "Name ";
 		cin.getline(name, 256);
@@ -71,10 +63,25 @@ void SIMS::insertion() {
 	do {
 		cout << "Student ID ";
 		cin >> studentID;
-	} while (!Student::validID(atoll(studentID.c_str())));
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
+		StudentDB* IDdata = db.searchID(atoll(studentID.c_str()));
+		if (IDdata->length() > 0) {
+			delete IDdata;
+			cout << "Error: Already Inserted" << endl << endl;
+			return;
+		}
+		delete IDdata;
+	} while (studentID.length() != 10 || !Student::validID(atoll(studentID.c_str())));
 	do {
 		cout << "Age ";
 		cin >> age;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
 	} while (!Student::validAge(age));
 	cin.ignore(256, '\n');
 	do {
@@ -87,6 +94,7 @@ void SIMS::insertion() {
 	} while (!Student::validTel(tel));
 	student->init(name, atoll(studentID.c_str()), age, department, tel);
 	db.insert(student);
+	db.writeToFile();
 }
 
 SIMS::~SIMS() {

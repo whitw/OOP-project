@@ -45,7 +45,11 @@ void StudentDB::insert(Student* student){
 		delete student;
 		return;
 	}
-	studentV.push_back(student);
+	StudentDB* IDdata;
+	IDdata = searchID(student->getID());
+	if (IDdata->length() == 0)
+		studentV.push_back(student);
+	else cout << "Error: Already inserted" << endl;
 }
 
 StudentDB* StudentDB::searchName(string name){
@@ -103,7 +107,6 @@ void StudentDB::sort() {
 }
 
 bool StudentDB::readFromFile() {
-	char line[60] = { 0 };
 	Student* student;
 	if (canWriteOnFile) {
 		ifstream ifs;
@@ -112,14 +115,17 @@ bool StudentDB::readFromFile() {
 			return false;
 		}
 		while (!ifs.eof()) {
-			ifs.read(line, 60);
+			char* line = new char[Student::blockSize];
+			ifs.read(line, Student::blockSize);
 			student = new Student();
 			if (student->init(line) == true) {//data is valid
 				this->insert(student);
+				delete[] line;
 			}
 			else {
 				delete student;
 				ifs.close();
+				delete[] line;
 				return false;
 			}
 		}
@@ -136,7 +142,7 @@ bool StudentDB::writeToFile() {
 		return false;
 	for (int i = 0; i < len; i++) {
 		bytes = studentV[i]->toBytes();
-		ofs.write(bytes, 60);
+		ofs.write(bytes, Student::blockSize);
 		delete[] bytes;
 	}
 	return true;
@@ -146,17 +152,18 @@ void StudentDB::print(){
 	size_t len = length();
 	sort();
 
-	cout << std::left << setw(15) << "Name";
+	cout << std::left << setw(17) << "Name";
 	cout << std::left << setw(12) << "Student ID";
-	cout << std::left << setw(20) << "Department";
+	cout << std::left << setw(22) << "Department";
 	cout << std::left << setw( 5) << "Age";
 	cout << std::left << setw(12) << "tel" << endl;
 
 	for (int i = 0; i < len; i++) {
-		cout << std::left << setw(15) << studentV[i]->getName();
-		cout << std::left << setw(12) << studentV[i]->getID();
-		cout << std::left << setw(20) << studentV[i]->getDepartment();
-		cout << std::left << setw( 5) << studentV[i]->getAge();
-		cout << std::left << setw(12) << studentV[i]->getTel() <<endl;
+		cout << std::left  << setw(17) << studentV[i]->getName();
+		cout << std::right << setw(10) << setfill('0') << studentV[i]->getID() << setfill(' ') << "  ";
+		cout << std::left  << setw(22) << studentV[i]->getDepartment();
+		cout << std::left  << setw( 5) << studentV[i]->getAge();
+		cout << std::left  << setw(12) << studentV[i]->getTel() << endl;
 	}
+	cout << endl;
 }
