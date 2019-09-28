@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iostream>
+#include <iomanip>
 
 StudentDB::StudentDB() {
 	studentV.clear();
@@ -30,11 +31,16 @@ StudentDB::StudentDB(string filename) {
 }
 
 StudentDB::~StudentDB(){
+}
+
+void StudentDB::deleteDB() {
 	size_t len = length();
 	for (int i = 0; i < len; i++) {
 		delete studentV[i];
 	}
+	studentV.clear();
 }
+
 void StudentDB::insert(Student* student){
 	if (!student->isValid()) {
 		delete student;
@@ -117,7 +123,13 @@ bool StudentDB::writeToFile() {
 void StudentDB::print(){
 	size_t len = length();
 	StudentDB::sort();
+	std::cout << std::setiosflags(ios::left) << setw(15) << "Name" << setw(12) << "Student ID";
+	std::cout << setw(20) << "Department" << setw(5) << "Age" << setw(12) << "tel" << endl;
 	for (int i = 0; i < len; i++) {
-		std::cout << studentV[i]->getName() << studentV[i]->getID() << studentV[i]->getDepartment() << studentV[i]->getAge() << studentV[i]->getTel() << endl;
+		std::cout << setw(15) << studentV[i]->getName();
+		std::cout << setw(12) << studentV[i]->getID();
+		std::cout << setw(20) << studentV[i]->getDepartment();
+		std::cout << setw( 5) << studentV[i]->getAge();
+		std::cout << setw(12) << studentV[i]->getTel() << endl;
 	}
 }

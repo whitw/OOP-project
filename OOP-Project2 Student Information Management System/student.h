@@ -7,7 +7,7 @@ using namespace std;
 class Student {
 
 	string name; // up to 15 english characters.
-	int64_t studentID; // exactly 10 digits.
+	int64_t studentID; // exactly 10 digits. Interpret 3 as 0000000003
 	int32_t age; //up to 3 digits
 	string department; // up to 20 english characters
 	int64_t tel; // up to 12 digits

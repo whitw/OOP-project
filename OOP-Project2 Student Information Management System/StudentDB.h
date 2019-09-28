@@ -20,6 +20,9 @@ public:
 	StudentDB(string filename); 
 	~StudentDB();
 
+	//delete all elements in studentV;
+	void deleteDB();
+
 	//insert Student.
 	void insert(Student* student);
 	size_t length() { return studentV.size(); }
