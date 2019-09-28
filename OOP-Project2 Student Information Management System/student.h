@@ -11,6 +11,7 @@ class Student {
 	int32_t age; //up to 3 digits
 	string department; // up to 20 english characters
 	int64_t tel; // up to 12 digits
+	bool valid = false;
 	bool validCheck(string name, long long studentID, int age, string department, long long tel);
 public:
 	Student();
@@ -20,6 +21,7 @@ public:
 	//if the data are not valid, the data won't be changed and it will return false
 	bool init(string name, long long studentID, int age, string department, long long tel);
 	bool init(char* bytes);
+	bool isValid() { return valid; };
 	string getName();
 	long long getID();
 	int getAge();

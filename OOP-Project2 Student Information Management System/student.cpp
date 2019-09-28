@@ -55,21 +55,22 @@ bool Student::init(char* bytes) {
 }
 bool Student::validCheck(string name, long long studentID, int age, string department, long long tel) {
 	if (name.length() > 15) {
-		return false;
+		valid = false;
 	}
-	if (studentID < 1000000000 || studentID > 9999999999) {
-		return false;
+	else if (studentID < 1000000000 || studentID > 9999999999) {
+		valid = false;
 	}
-	if (age > 999) {
-		return false;
+	else if (age > 999) {
+		valid = false;
 	}
-	if (department.length() > 20) {
-		return false;
+	else if (department.length() > 20) {
+		valid = false;
 	}
-	if (tel > 999999999999) {
-		return false;
+	else if (tel > 999999999999) {
+		valid = false;
 	}
-	return true;
+	else valid = true;
+	return valid;
 }
 string Student::getName() {
 	return string(name);
