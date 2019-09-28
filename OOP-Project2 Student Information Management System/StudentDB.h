@@ -17,7 +17,7 @@ public:
 	StudentDB(string filename); 
 	//insert Student.
 	void insert(Student student);
-	int length() { return studentV.size(); }
+	size_t length() { return studentV.size(); }
 	StudentDB searchname(string name);
 	StudentDB searchID(int id);
 	StudentDB searchDepart(string department);
