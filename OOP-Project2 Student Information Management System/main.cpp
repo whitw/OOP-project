@@ -1,8 +1,7 @@
 ﻿#include <iostream>
 #include "SIMS.h"
 #include "student.h"
-#define DEBUG
-//#undef DEBUG
+//#define DEBUG
 using namespace std;
 
 

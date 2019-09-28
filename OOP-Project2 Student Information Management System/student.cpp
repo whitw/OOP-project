@@ -13,10 +13,10 @@ Student::Student() {
 Student::~Student() {
 }
 
-bool Student::init(string name, long long studentID, int age, string department, long long tel)
+bool Student::init(string name, int64_t studentID, int age, string department, int64_t tel)
 {
 	//valid check
-	if (!validCheck(name, studentID,age,department,tel)) {
+	if (!isValid()) {
 		return false;
 	}
 
@@ -53,24 +53,43 @@ bool Student::init(char* bytes) {
 	Student::tel = tel;
 	return true;
 }
-bool Student::validCheck(string name, long long studentID, int age, string department, long long tel) {
-	if (name.length() > 15) {
-		valid = false;
-	}
-	else if (studentID < 1000000000 || studentID > 9999999999) {
-		valid = false;
-	}
-	else if (age > 999) {
-		valid = false;
-	}
-	else if (department.length() > 20) {
-		valid = false;
-	}
-	else if (tel > 999999999999) {
-		valid = false;
-	}
-	else valid = true;
-	return valid;
+bool Student::validName(string name) {
+	if (name.length() > 15)
+		return false;
+	return true;
+}
+bool Student::validID(int64_t studentID) {
+	if (studentID < 1000000000 || studentID > 9999999999)
+		return false;
+	return true;
+}
+bool Student::validAge(int age) {
+	if (age > 999)
+		return false;
+	return true;
+}
+bool Student::validDepartment(string department) {
+	if (department.length() > 20)
+		return false;
+	return true;
+}
+bool Student::validTel(int64_t tel) {
+	if (tel > 999999999999)
+		return false;
+	return true;
+}
+bool Student::validCheck(string name, int64_t studentID, int age, string department, int64_t tel) {
+	if (!validName(name))
+		return false;
+	else if(!validID(studentID))
+		return false;
+	else if(!validAge(age))
+		return false;
+	else if (!validDepartment(department))
+		return false;
+	else if (!validTel(tel))
+		return false;
+	else return true;
 }
 string Student::getName() {
 	return string(name);

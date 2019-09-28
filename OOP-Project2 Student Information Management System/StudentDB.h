@@ -26,10 +26,10 @@ public:
 	//insert Student.
 	void insert(Student* student);
 	size_t length() { return studentV.size(); }
-	StudentDB searchname(string name);
-	StudentDB searchID(int id);
-	StudentDB searchDepart(string department);
-	StudentDB searchAge(int age);
+	StudentDB* searchName(string name);
+	StudentDB* searchID(long long id);
+	StudentDB* searchDepart(string department);
+	StudentDB* searchAge(int age);
 	
 	//sort vector<Student> studentV by order of comp_func.
 	void sort(bool (*comp_func)(const void*, const void*));

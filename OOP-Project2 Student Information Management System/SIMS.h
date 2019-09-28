@@ -6,7 +6,7 @@
 //Student Information Management System
 class SIMS {
 	bool running = true;
-	StudentDB* db;
+	StudentDB db;
 	string filename;
 
 	//those will be called by SIMS itself.

@@ -5,14 +5,12 @@
 #include <iomanip>
 
 StudentDB::StudentDB() {
-	studentV.clear();
 	filename = string("");
 	canWriteOnFile = false;
 }
 
 StudentDB::StudentDB(string filename) {
-	studentV.clear();
-	StudentDB::filename = filename;
+	this->filename = filename;
 	ifstream ifs;
 	ifs.open(filename, ios::in);
 	if (!ifs.is_open()) { //fail to open the file
@@ -27,6 +25,7 @@ StudentDB::StudentDB(string filename) {
 	else {//No error.
 		canWriteOnFile = true;
 		ifs.close();
+		readFromFile();
 	}
 }
 
@@ -46,26 +45,49 @@ void StudentDB::insert(Student* student){
 		delete student;
 		return;
 	}
-	if (canWriteOnFile) {
-		studentV.push_back(student);
+	studentV.push_back(student);
+}
+
+StudentDB* StudentDB::searchName(string name){
+	StudentDB* ret = new StudentDB();
+	size_t len = length();
+	for (int i = 0; i < len; i++) {
+		if (studentV[i]->getName() == name)
+			ret->insert(studentV[i]);
 	}
+	return ret;
 }
 
-StudentDB StudentDB::searchname(string name){
-	return StudentDB();
+StudentDB* StudentDB::searchID(long long id){
+	StudentDB* ret = new StudentDB();
+	size_t len = length();
+	for (int i = 0; i < len; i++) {
+		if (studentV[i]->getID() == id)
+			ret->insert(studentV[i]);
+	}
+	return ret;
 }
 
-StudentDB StudentDB::searchID(int id){
-	return StudentDB();
+StudentDB* StudentDB::searchDepart(string department){
+	StudentDB* ret = new StudentDB();
+	size_t len = length();
+	for (int i = 0; i < len; i++) {
+		if (studentV[i]->getDepartment() == department)
+			ret->insert(studentV[i]);
+	}
+	return ret;
 }
 
-StudentDB StudentDB::searchDepart(string department){
-	return StudentDB();
+StudentDB* StudentDB::searchAge(int age){
+	StudentDB* ret = new StudentDB();
+	size_t len = length();
+	for (int i = 0; i < len; i++) {
+		if (studentV[i]->getAge() == age)
+			ret->insert(studentV[i]);
+	}
+	return ret;
 }
 
-StudentDB StudentDB::searchAge(int age){
-	return StudentDB();
-}
 void StudentDB::sort(bool (*comp_func)(const void*, const void*)) {
 	std::sort(studentV.begin(), studentV.end(), comp_func);
 }
@@ -77,7 +99,7 @@ bool sort_by_name(const void* a, const void* b) {
 }
 
 void StudentDB::sort() {
-	StudentDB::sort(sort_by_name);
+	this->sort(sort_by_name);
 }
 
 bool StudentDB::readFromFile() {
@@ -93,7 +115,7 @@ bool StudentDB::readFromFile() {
 			ifs.read(line, 60);
 			student = new Student();
 			if (student->init(line) == true) {//data is valid
-				StudentDB::insert(student);
+				this->insert(student);
 			}
 			else {
 				delete student;
@@ -122,14 +144,19 @@ bool StudentDB::writeToFile() {
 
 void StudentDB::print(){
 	size_t len = length();
-	StudentDB::sort();
-	std::cout << std::setiosflags(ios::left) << setw(15) << "Name" << setw(12) << "Student ID";
-	std::cout << setw(20) << "Department" << setw(5) << "Age" << setw(12) << "tel" << endl;
+	sort();
+
+	cout << std::left << setw(15) << "Name";
+	cout << std::left << setw(12) << "Student ID";
+	cout << std::left << setw(20) << "Department";
+	cout << std::left << setw( 5) << "Age";
+	cout << std::left << setw(12) << "tel" << endl;
+
 	for (int i = 0; i < len; i++) {
-		std::cout << setw(15) << studentV[i]->getName();
-		std::cout << setw(12) << studentV[i]->getID();
-		std::cout << setw(20) << studentV[i]->getDepartment();
-		std::cout << setw( 5) << studentV[i]->getAge();
-		std::cout << setw(12) << studentV[i]->getTel() << endl;
+		cout << std::left << setw(15) << studentV[i]->getName();
+		cout << std::left << setw(12) << studentV[i]->getID();
+		cout << std::left << setw(20) << studentV[i]->getDepartment();
+		cout << std::left << setw( 5) << studentV[i]->getAge();
+		cout << std::left << setw(12) << studentV[i]->getTel() <<endl;
 	}
 }
