@@ -9,18 +9,18 @@ SIMS::SIMS(string filename) {
 
 void SIMS::start() {
 	int input;
-	SIMS::show_menu();
 	do {
+		SIMS::show_menu();
 		cout << "> ";
 		cin >> input;
 		if (cin.fail()) { //not integer
-			cout << "Please input integer between 1 and 3" << endl;
+			cout << "Please input integer between 1 and 3" << endl << endl;
 			cin.clear();
 			cin.ignore(256, '\n');
 		}
 		else {
 			if (input < 1 || input > 3) {
-				cout << "Please input integer between 1 and 3" << endl;
+				cout << "Please input integer between 1 and 3" << endl << endl;
 			}
 			else
 				break;

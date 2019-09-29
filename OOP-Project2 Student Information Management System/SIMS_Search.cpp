@@ -14,17 +14,17 @@ void SIMS::show_search_menu() {
 
 void SIMS::search() {
 	int input;
-	show_search_menu();
-	cout << "> ";
 	while (true) {
+		show_search_menu();
+		cout << "> ";
 		cin >> input;
 		if (cin.fail()) {
-			cout << "Please input integer between 1 and 5";
+			cout << "Please input integer between 1 and 5" << endl << endl;
 			cin.clear();
 			cin.ignore(256, '\n');
 		}
 		else if (input < 1 || input > 5) {
-			cout << "Please input integer between 1 and 5";
+			cout << "Please input integer between 1 and 5" << endl << endl;
 		}
 		else break;
 	}
@@ -73,10 +73,11 @@ void SIMS::search_studentID() {
 }
 
 void SIMS::search_department() {
-	string input;
+	char input[256];
 	StudentDB* result;
 	cout << "Department name keyword? ";
-	cin >> input;
+	cin.ignore(256, '\n');
+	cin.getline(input, 256);
 	result = db.searchDepart(input);
 	result->print();
 	delete result;

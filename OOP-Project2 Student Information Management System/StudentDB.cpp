@@ -99,7 +99,10 @@ void StudentDB::sort(bool (*comp_func)(const void*, const void*)) {
 bool sort_by_name(const void* a, const void* b) {
 	Student* pa = (Student*)a;
 	Student* pb = (Student*)b;
-	return pa->getName() < pb->getName();
+	string sa = pa->getName();
+	string sb = pb->getName();
+	//if sa == sb then compare with ID, if not, compare with just names.
+	return sa == sb ? pa->getID() < pb->getID() : sa < sb;
 }
 
 void StudentDB::sort() {

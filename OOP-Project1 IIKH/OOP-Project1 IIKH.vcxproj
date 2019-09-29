@@ -123,6 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="Greeter.h" />
+    <ClInclude Include="Ingredients.h" />
+    <ClInclude Include="Meal.h" />
+    <ClInclude Include="PlanManager.h" />
+    <ClInclude Include="RecipeDB.h" />
+    <ClInclude Include="Recipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
