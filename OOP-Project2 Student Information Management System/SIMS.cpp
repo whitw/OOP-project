@@ -4,7 +4,7 @@
 using namespace std;
 SIMS::SIMS(string filename) {
 	SIMS::filename = filename;
-	db = StudentDB(filename);
+	db = new StudentDB(filename);
 }
 
 void SIMS::start() {
@@ -50,7 +50,7 @@ void SIMS::show_menu() {
 void SIMS::insertion() {
 	char name[256];
 	string studentID;
-	int age;
+	int age = -1;
 	char department[256];
 	char tel[256];
 	Student* student = new Student();
@@ -60,43 +60,50 @@ void SIMS::insertion() {
 		cout << "Name ";
 		cin.getline(name, 256);
 	} while (!Student::validName(name));
+
 	do {
 		cout << "Student ID ";
 		cin >> studentID;
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(256, '\n');
+			continue;
 		}
-		StudentDB* IDdata = db.searchID(atoll(studentID.c_str()));
+		StudentDB* IDdata = db->searchID(atoll(studentID.c_str()));
 		if (IDdata->length() > 0) {
-			delete IDdata;
 			cout << "Error: Already Inserted" << endl << endl;
+			delete student;
 			return;
 		}
 		delete IDdata;
 	} while (studentID.length() != 10 || !Student::validID(atoll(studentID.c_str())));
+
 	do {
 		cout << "Age ";
 		cin >> age;
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(256, '\n');
+			continue;
 		}
 	} while (!Student::validAge(age));
 	cin.ignore(256, '\n');
+
 	do {
 		cout << "Department ";
 		cin.getline(department, 256);
 	} while (!Student::validDepartment(department));
+
 	do {
 		cout << "Tel ";
 		cin >> tel;
 	} while (!Student::validTel(tel));
+
 	student->init(name, atoll(studentID.c_str()), age, department, tel);
-	db.insert(student);
-	db.writeToFile();
+	db->insert(student);
+	db->writeToFile();
 }
 
 SIMS::~SIMS() {
-	db.deleteDB();
+	delete db;
 }

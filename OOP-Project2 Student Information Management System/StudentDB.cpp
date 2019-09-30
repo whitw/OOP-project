@@ -30,6 +30,7 @@ StudentDB::StudentDB(string filename) {
 }
 
 StudentDB::~StudentDB(){
+	deleteDB();
 }
 
 void StudentDB::deleteDB() {
@@ -54,40 +55,56 @@ void StudentDB::insert(Student* student){
 
 StudentDB* StudentDB::searchName(string name){
 	StudentDB* ret = new StudentDB();
+	Student* each;
 	size_t len = length();
 	for (int i = 0; i < len; i++) {
-		if (studentV[i]->getName() == name)
-			ret->insert(studentV[i]);
+		if (studentV[i]->getName() == name) {
+			each = new Student();
+			each->init(studentV[i]);
+			ret->insert(each);
+		}
 	}
 	return ret;
 }
 
 StudentDB* StudentDB::searchID(long long id){
 	StudentDB* ret = new StudentDB();
+	Student* each;
 	size_t len = length();
 	for (int i = 0; i < len; i++) {
-		if (studentV[i]->getID() == id)
-			ret->insert(studentV[i]);
+		if (studentV[i]->getID() == id) {
+			each = new Student();
+			each->init(studentV[i]);
+			ret->insert(each);
+		}
 	}
 	return ret;
 }
 
 StudentDB* StudentDB::searchDepart(string department){
 	StudentDB* ret = new StudentDB();
+	Student* each;
 	size_t len = length();
 	for (int i = 0; i < len; i++) {
-		if (studentV[i]->getDepartment() == department)
-			ret->insert(studentV[i]);
+		if (studentV[i]->getDepartment() == department) {
+			each = new Student();
+			each->init(studentV[i]);
+			ret->insert(each);
+		}
 	}
 	return ret;
 }
 
 StudentDB* StudentDB::searchAge(int age){
 	StudentDB* ret = new StudentDB();
+	Student* each;
 	size_t len = length();
 	for (int i = 0; i < len; i++) {
-		if (studentV[i]->getAge() == age)
-			ret->insert(studentV[i]);
+		if (studentV[i]->getAge() == age) {
+			each = new Student();
+			each->init(studentV[i]);
+			ret->insert(each);
+		}
 	}
 	return ret;
 }

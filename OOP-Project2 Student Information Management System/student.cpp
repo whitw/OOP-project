@@ -52,6 +52,17 @@ bool Student::init(char* bytes) {
 	Student::tel = string(tel);
 	return true;
 }
+bool Student::init(Student* student) {
+	if (student->isValid()) {
+		name = string(student->name);
+		studentID = student->studentID;
+		age = student->age;
+		department = string(student->department);
+		tel = string(student->tel);
+		return true;
+	}
+	return false;
+}
 bool Student::validName(string name) {
 	if (name.length() > 15)
 		return false;

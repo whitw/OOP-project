@@ -6,7 +6,7 @@
 //Student Information Management System
 class SIMS {
 	bool running = true; //if running is false, SIMS terminate after current execution.
-	StudentDB db; //Student Database for this session.
+	StudentDB* db; //Student Database for this session.
 	string filename; //save-load file
 
 	//those will be called by SIMS itself.

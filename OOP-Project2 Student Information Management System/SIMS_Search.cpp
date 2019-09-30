@@ -53,7 +53,7 @@ void SIMS::search_name() {
 	cout << "Name keyword? ";
 	cin.ignore(256, '\n');
 	cin.getline(input, 256);
-	result = db.searchName(input);
+	result = db->searchName(input);
 	result->print();
 	delete result;
 }
@@ -66,7 +66,7 @@ void SIMS::search_studentID() {
 	cin >> input;
 	if (input.length() == 10) {
 		id = atol(input.c_str());
-		result = db.searchID(id);
+		result = db->searchID(id);
 		result->print();
 		delete result;
 	}
@@ -78,7 +78,7 @@ void SIMS::search_department() {
 	cout << "Department name keyword? ";
 	cin.ignore(256, '\n');
 	cin.getline(input, 256);
-	result = db.searchDepart(input);
+	result = db->searchDepart(input);
 	result->print();
 	delete result;
 }
@@ -88,11 +88,11 @@ void SIMS::search_age() {
 	StudentDB* result;
 	cout << "Age? ";
 	cin >> input;
-	result = db.searchAge(input);
+	result = db->searchAge(input);
 	result->print();
 	delete result;
 }
 
 void SIMS::search_listall() {
-	db.print();
+	db->print();
 }

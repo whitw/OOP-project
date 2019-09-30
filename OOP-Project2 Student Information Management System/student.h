@@ -23,6 +23,8 @@ public:
 	//it takes data from file. bytes are Student::blockSize long.
 	bool init(char* bytes);
 
+	//copy data from another student.
+	bool init(Student* student);
 	//check if these data are valid. false if not.
 	//they are static, which means it can be used without creating instances.
 	//can be used as someting like Student::validName("some name").
