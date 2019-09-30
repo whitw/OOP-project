@@ -10,26 +10,32 @@ class Plan {
 public:
 	Plan(string title, string contents);
 	Plan(string title);
+	string get_title();
+	string get_contents();
 };
 
 class Date {
 	int year;
 	int month;
 	int day;
-	vector<Plan> plan;
-	vector<Meal> meal;
+	vector<Plan*> plan;
+	vector<Meal*> meal;
 public:
 	Date(int year, int month, int day);
-	//add plan.
-	bool addPlan(Plan plan);
-	//find plan and remove it.
-	int getPlan(Plan plan);
+	~Date();
+	
 	//find plan and return the index of it.
 	int findPlanIndex(Plan plan);
-	int findPlanIndex(string title);
 	int findPlanIndexByTitle(string title);
-	int findPlanIndexByContents(string title);
+	int findPlanIndex(string title); // by title
+
+	int findPlanIndexByContents(string contents);
+
+	//add plan.
+	bool addPlan(Plan plan);
 	void replacePlan(int index, Plan plan);
 	bool removePlan(int index);
 	bool removePlan(Plan plan);
+
+	
 };

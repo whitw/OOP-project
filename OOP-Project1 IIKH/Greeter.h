@@ -1,21 +1,22 @@
 #pragma once
 #include "Recipe.h"
 #include "RecipeDB.h"
+#include "PlanManager.h"
 #include <string>
 
 using namespace std;
 
 class Greeter {
-	RecipeDB recipeDB;
+	RecipeDB* recipeDB;
+	PlanManager* date;
 public:
-	Greeter();
+	Greeter(RecipeDB* recipeDB=NULL, PlanManager* manager=NULL);
 	~Greeter();
 
-	//get single keyword string and find all Recipe matches to it.
-	RecipeDB searchRecipe(string keyword);
-	//get array of keyword string and find intersection of searchRecipe(keyword[0]) and searchRecipe(keyword[1]) and so on.
-	RecipeDB seearchRecipe(string* keyword, size_t length);
-	
-	//calls recipeDB.addRecipe(newRecipe);
-	void addRecipe(Recipe newRecipe) { recipeDB.add_recipe(newRecipe); }
+	void main_menu();
+	void recipe_menu();
+	void plan_manager_menu();
+
+	RecipeDB* get_recipeDB(string recipe);
+	Date* get_date(int year, int month, int day);
 };

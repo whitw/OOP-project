@@ -5,42 +5,46 @@
 using namespace std;
 
 class Recipe {
-	//float stands for the mass of each ingredients.
-	vector<pair<Ingredients, float>> ingredients;
+	//<Ingredients = ingredients, float = gram>
+	vector<pair<Ingredients*, float>> ingredients;
 	//cooking steps.
 	vector<string> step;
+
 public:
-	//step[i]
-	string get_step(int i);
-	//works simmilar to (string*)step
-	string* get_all_step();
+
+	//without any data.
+	Recipe();
+	//get array of Ingredients, float string and init.
+	Recipe(Ingredients* ingredients, float* amount, string* step);
+	Recipe(vector<pair<Ingredients*, float>> ingredients, vector<string> step);
+	~Recipe();
+
+
+	//ingredients[i].first == ingredient
+	int find_ingredient(Ingredients* ingredient);
+	//ingredients[i].first.get_name() == name;
+	int find_ingredient(string name);
+	//ingredients[i].first;
+	Ingredients* get_ingredient(int ingredient);
+	//ingredients[i].second;
+	float get_amount(int ingredient);
+	//ingredients[i].second = amount;
+	void set_ingredient_amount(int i, float amount);
+	//find ingredient and set amount if it as float amount.
+	void set_ingredient_amount(Ingredients* ingredient, float amount); 
+
+	vector<Ingredients*> get_all_ingredients();
+	string* get_step(int i);
+	vector<string>* get_all_step();
+
 	//step[i] = newStep
 	void set_step(int i, string newStep);
-	//find(ingredients)
-	Ingredients find_by_ingredient(string ingredient);
+
 	//print out all ingredients and steps onto cout.
 	void print();
 
-	Ingredients get_ingredient(int i);
-	Ingredients* get_
+	//for file io.
+	char* to_bytes();
+	//for file io. if fail, return false
+	bool from_bytes(char* bytes);
 };
-
-
-
-
-/*
-memo
-
-It replaces box of index cards of recipes
-Assist in the planning of meals for, say a week.
-
-browse the db of recipe by multiple words
-add new recipe
-edit, or annotate recipe
-review a plan for
-create a series of menus
-scale the recipes to any number of servings
-print out menus for the entire week, particular day, particular meal.
-Integrated grocery list of all the items needed for the recipes for the entire period
-
-*/
