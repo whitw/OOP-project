@@ -4,39 +4,49 @@
 #include "Ingredients.h"
 using namespace std;
 
+/**********************************
+   class that manage one Recipe.
+   it stores its name, ingredients
+   and cooking steps.
+************************************/
+
 class Recipe {
-	//<Ingredients = ingredients, float = gram>
-	vector<pair<Ingredients*, float>> ingredients;
+
+	string name;
+	vector<Ingredients*> ingredients;
+	vector<float> amount_ingredients;
 	//cooking steps.
-	vector<string> step;
+	string* step[];
 
 public:
 
-	//without any data.
+	//construct without any data.
 	Recipe();
 	//get array of Ingredients, float string and init.
-	Recipe(Ingredients* ingredients, float* amount, string* step);
-	Recipe(vector<pair<Ingredients*, float>> ingredients, vector<string> step);
+	Recipe(string name, Ingredients* ingredients[], float amount[], string step[]);
 	~Recipe();
 
 
-	//ingredients[i].first == ingredient
 	int find_ingredient(Ingredients* ingredient);
-	//ingredients[i].first.get_name() == name;
 	int find_ingredient(string name);
-	//ingredients[i].first;
+
+	//ingredients[i];
 	Ingredients* get_ingredient(int ingredient);
-	//ingredients[i].second;
+
+	//amount_ingredients[i];
 	float get_amount(int ingredient);
-	//ingredients[i].second = amount;
+
+	//amount_ingredients[i] = amount;
 	void set_ingredient_amount(int i, float amount);
-	//find ingredient and set amount if it as float amount.
 	void set_ingredient_amount(Ingredients* ingredient, float amount); 
 
-	vector<Ingredients*> get_all_ingredients();
-	string* get_step(int i);
-	vector<string>* get_all_step();
+	string get_name();
+	(vector<Ingredients*>)* get_all_ingredients();
 
+	string* get_step(int i);
+	(vector<string>)* get_all_step();
+
+	void set_name(string name);
 	//step[i] = newStep
 	void set_step(int i, string newStep);
 

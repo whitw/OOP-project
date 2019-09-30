@@ -1,20 +1,26 @@
 #pragma once
-#include <map>
 #include <string>
 
 using namespace std;
-/*
-Ingredients class
-map<string type_of_nutrients, float grams(per 100g)> nutrients
-price(per 100g)
-calories(per 100g)
-*/
+/****************************
+    class that represents
+	a kind of ingredients.
+
+	It doesn't store any
+	data about informations,
+	but it stores percentage
+	of nutrients,
+	calories, and prices.
+
+****************************/
 class Ingredients {
 	string name;
 	//grams per 100grams
-	//nutrients.find("carbohydrate") => 30.0f
+	//if nutrient_name[1] == new string("Protein");
+	//and nutrient_amount[1] == 30.0f then
 	//--> 30 grams in total 100 grams.
-	map<string, float> nutrients;
+	string* nutrient_name;
+	float* nutrient_amount;
 	
 	//$ per 100g
 	//get_price() => 3.0f
@@ -22,8 +28,9 @@ class Ingredients {
 	float price;
 	//kcal per 100g
 	float calories;
+
 public:
-	Ingredients(string name, map<string, float> nutrients, float price, float calories);
+	Ingredients(string name, string nutrient_names[], float nutrients_amount[], float price, float calories);
 	~Ingredients();
 	string get_name();
 	float get_price();

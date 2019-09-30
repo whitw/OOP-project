@@ -3,6 +3,15 @@
 #include "Recipe.h"
 
 using namespace std;
+/***********************************
+  class that stores list of Recipe.
+
+  It supports method about searching,
+  adding, removing and printing.
+
+  It also can be used to store a meal.
+  You can scale the RecipeDB up for n people.
+************************************/
 class RecipeDB {
 	vector<Recipe*> recipeV;
 public:
@@ -25,10 +34,12 @@ public:
 	void add_recipe(Recipe* recipe);
 	//recipeV.erase(i)
 	void remove(int i);
-	
+	//sort DB by comp method.
+	void sort(bool (*comp)(const void*, const void*));
 	//print recipeV[i]
 	void print(int i) { get_ith_recipe(i)->print(); };
 	//print recipeV
 	void print();
 
+	RecipeDB* scale(int people);
 };

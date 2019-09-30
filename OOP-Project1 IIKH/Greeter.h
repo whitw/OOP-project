@@ -5,7 +5,11 @@
 #include <string>
 
 using namespace std;
-
+/*****************************
+  Greeter Class does commmuncaite with user.
+  It will process user input and display the result,
+  using RecipeDB and PlanManager in its own methods.
+*******************************/
 class Greeter {
 	RecipeDB* recipeDB;
 	PlanManager* date;
@@ -17,6 +21,6 @@ public:
 	void recipe_menu();
 	void plan_manager_menu();
 
-	RecipeDB* get_recipeDB(string recipe);
+	RecipeDB* get_recipeDB();
 	Date* get_date(int year, int month, int day);
 };

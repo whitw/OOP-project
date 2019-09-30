@@ -21,9 +21,6 @@
     <ClInclude Include="Recipe.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Meal.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Date.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

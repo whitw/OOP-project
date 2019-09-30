@@ -3,6 +3,10 @@
 #include "Date.h"
 using namespace std;
 
+/*****************************
+  Plan Manager class manages Dates.
+  It just works like DateDB.
+*****************************/
 class PlanManager {
 	vector<Date*> dates;
 public:

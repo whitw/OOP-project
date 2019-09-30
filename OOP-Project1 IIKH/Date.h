@@ -1,9 +1,15 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "Meal.h"
-
+#include "RecipeDB.h"
 using namespace std;
+
+/**********************
+   Plan Class represents
+   memo about one Plan.
+   It only supports
+   initializing and printing
+***********************/
 class Plan {
 	string title;
 	string contents;
@@ -14,12 +20,18 @@ public:
 	string get_contents();
 };
 
+/**************************
+    Date Class represents
+	one Day on diary.
+	It also stores plan on that day,
+	and meal to consume that day.
+***************************/
 class Date {
 	int year;
 	int month;
 	int day;
 	vector<Plan*> plan;
-	vector<Meal*> meal;
+	vector<RecipeDB*> meal;
 public:
 	Date(int year, int month, int day);
 	~Date();
@@ -31,11 +43,23 @@ public:
 
 	int findPlanIndexByContents(string contents);
 
-	//add plan.
-	bool addPlan(Plan plan);
-	void replacePlan(int index, Plan plan);
-	bool removePlan(int index);
-	bool removePlan(Plan plan);
-
+	//add/replace/remove plan.
+	bool add_plan(Plan plan);
 	
+	//plan[index] = plan
+	void replace_plan(int index, Plan plan);
+
+	//delete plan[index]
+	bool remove_plan(int index);
+	bool remove_plan(Plan plan);
+
+	//add, find, delete menu 
+	void add_menu(Recipe* recipe);
+	RecipeDB* get_all_menu();
+	Recipe* find_menu(string title);
+	void delete_menu(string title);
+
+	int get_year();
+	int get_month();
+	int get_date();
 };
