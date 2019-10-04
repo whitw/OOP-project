@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP-Project2 Student Information Management System", "OOP-Project2 Student Information Management System.vcxproj", "{0B7AD574-3D5F-4DBD-BFD5-FDB9CE5FBB6B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP-Project1 IIKH", "..\OOP-Project1 IIKH\OOP-Project1 IIKH.vcxproj", "{146045EA-86CF-4650-823C-4CAD02E1F37C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{0B7AD574-3D5F-4DBD-BFD5-FDB9CE5FBB6B}.Release|x64.Build.0 = Release|x64
 		{0B7AD574-3D5F-4DBD-BFD5-FDB9CE5FBB6B}.Release|x86.ActiveCfg = Release|Win32
 		{0B7AD574-3D5F-4DBD-BFD5-FDB9CE5FBB6B}.Release|x86.Build.0 = Release|Win32
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Debug|x64.ActiveCfg = Debug|x64
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Debug|x64.Build.0 = Debug|x64
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Debug|x86.ActiveCfg = Debug|Win32
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Debug|x86.Build.0 = Debug|Win32
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Release|x64.ActiveCfg = Release|x64
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Release|x64.Build.0 = Release|x64
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Release|x86.ActiveCfg = Release|Win32
-		{146045EA-86CF-4650-823C-4CAD02E1F37C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
