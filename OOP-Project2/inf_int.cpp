@@ -7,7 +7,7 @@ using namespace std;
         constructor
 *****************************/
 inf_int::inf_int() {
-	*this = inf_int(0);
+	*this = inf_int(0); //operator=(this, inf_int(0)). slower, but easy to modify.
 }
 
 inf_int::inf_int(int dec){
@@ -49,7 +49,7 @@ inf_int::inf_int(int dec){
 inf_int::inf_int(const char* data) {
 	int readfrom = 0;
 	if (strlen(data) == 1 && data[0] == '0') { //data == "0"
-		*this = inf_int();
+		*this = inf_int(0);
 		return;
 	}
 	if (data[0] > '0' && data[0] <= '9') { //data is positive
@@ -132,29 +132,46 @@ bool operator<(const inf_int& a, const inf_int& b) {
 	return (b > a);
 }
 
-inf_int operator+(const inf_int&, const inf_int&) {
-	return inf_int(0);
+inf_int operator+(const inf_int& a, const inf_int& b) {
+	int carry = 0;
+	int temp_sum = 0;
+	inf_int result;
+	if (a.thesign == b.thesign) {
+		result.thesign = a.thesign;
+		result.length = max(a.length, b.length) + 1;
+		result.digits = new char[result.length];
+		for (int i = 0; i < result.length; i++) {
+			temp_sum = a.digits[i] + b.digits[i] + carry - '0' - '0';
+			result.digits[i] = (temp_sum % 10) + '0';
+			carry = temp_sum / 10;
+		}
+		if (result.digits[result.length - 1] == '0') {
+			result.length--; // no reallocating digits.
+			                 //It would make the loss of 1 byte, but reallocating cost(time) would be much bigger than that.
+		}
+	}
+	else { // (+) + (-)
+
+	}
+	return result;
 }
-inf_int operator-(const inf_int&, const inf_int&) {
-	return inf_int(0);
+inf_int operator-(const inf_int& a, const inf_int& b) {
+	inf_int minusB = b;
+	minusB.thesign = !minusB.thesign;
+	return a + b;
 }
-inf_int operator*(const inf_int&, const inf_int&) {
+
+inf_int operator*(const inf_int& a, const inf_int& b) {
 	return inf_int(0);
 }
 
 
 
 ostream& operator<<(ostream& out, const inf_int& data) {
-	if (data.thesign) {
-		for (int i = int(data.length - 1); i >= 0; i--) {
-			out << data.digits[i];
-		}
-	}
-	else {
+	if(!data.thesign)
 		out << '-';
-		for (int i = int(data.length - 1); i >= 0; i--) {
-			out << data.digits[i];
-		}
+	for (int i = int(data.length - 1); i >= 0; i--) {
+		out << data.digits[i];
 	}
 	return out;
 }
@@ -165,7 +182,7 @@ istream& operator>>(istream& in, inf_int& data) {
 	try {
 		data = inf_int(str.c_str());
 	}
-	catch (int x) { //not an integer. cin.fail() is now true.
+	catch (int) { //not an integer. cin.fail() is now true.
 		in.setstate(ios::failbit);
 	}
 	return in;
