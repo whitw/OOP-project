@@ -26,18 +26,10 @@ int main()
 	cout << f << endl;
 	cout << g << endl;
 	cout << h << endl;
-	cout << "input any integer: ";
-	cin >> g;
-	if (cin.fail()) {
-		cout << "seems like it is not a proper integer." << endl;
-	}
-	cout << g << endl;
-	g = b;
-	cout << g << endl;
-	//inf_int c("321111111111122222222222233333333333444444444445555555555");
-	//inf_int d("123451987651234572749499923455022211");
-	//inf_int f = d;
-	//inf_int g(f);
+	cout << inf_int(345) - inf_int(678) << endl;
+	cout << inf_int(INT_MIN) - inf_int(INT_MIN) << endl;
+	cout << inf_int(INT_MIN) - inf_int(INT_MIN + 1) << endl;
+	cout << inf_int("123456789") + inf_int("9876543210") << endl;
 
 	// cin >> g ;   // not required
 
