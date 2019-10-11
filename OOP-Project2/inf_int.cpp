@@ -1,4 +1,6 @@
 #include "inf_int.h"
+#pragma warning(error:6385)
+#pragma warning(error:6386)
 
 using namespace std;
 
@@ -6,9 +8,7 @@ using namespace std;
 /****************************
         constructor
 *****************************/
-inf_int::inf_int() {
-	*this = inf_int(0); //operator=(this, inf_int(0)). slower, but easy to modify.
-}
+inf_int::inf_int() : inf_int::inf_int(0){}
 
 inf_int::inf_int(int dec){
 	char data[20] = {0};
@@ -48,7 +48,9 @@ inf_int::inf_int(int dec){
 inf_int::inf_int(const char* data) {
 	int readfrom = 0;
 	if (strlen(data) == 1 && data[0] == '0') { //data == "0"
-		*this = inf_int(0);
+		thesign = true;
+		length = 1;
+		digits = new char[2]{'0', 0};
 		return;
 	}
 	if (data[0] > '0' && data[0] <= '9') { //data is positive
@@ -81,6 +83,7 @@ inf_int::inf_int(const inf_int& from) { // copy constructor
 	memcpy(digits, from.digits, length);
 	digits[length] = 0;
 }
+
 inf_int::~inf_int() { delete digits; } // destructor
 
 /******************************
@@ -89,8 +92,7 @@ inf_int::~inf_int() { delete digits; } // destructor
 inf_int& inf_int::operator=(const inf_int& from) {
 	length = from.length;
 	thesign = from.thesign;
-	char* newdigits;
-	newdigits = (char*)realloc(digits, size_t(length) + 1);
+	char* newdigits = (char*)realloc(digits, size_t(length) + 1);
 	if (newdigits == NULL) {
 		cout << "Memory reallocation failed, the program will terminate." << endl;
 		exit(0);
@@ -149,8 +151,8 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		int carry = 0;
 		int temp_sum = 0;
 		result.thesign = a.thesign;
-		result.length = max(a.length, b.length);
-		char* newdigits = (char*)realloc(result.digits, size_t(result.length) + 1);
+		result.length = max(a.length, b.length); //set size small, then size up if needed.
+		char* newdigits = (char*)realloc(result.digits, (size_t)result.length + 1);
 		if (newdigits == NULL) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -160,14 +162,14 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			char adigit = i < a.length ? a.digits[i] : '0';
 			char bdigit = i < b.length ? b.digits[i] : '0';
 
-			temp_sum = adigit + bdigit + carry - '0' - '0';
+			temp_sum = (adigit - '0') + (bdigit - '0') + carry;
 			result.digits[i] = (temp_sum % 10) + '0';
 			carry = temp_sum / 10;
 		}
 		if (carry != 0) {
 			result.digits[result.length] = carry + '0';
 			result.length++;
-			newdigits = (char*)realloc(result.digits, size_t(result.length) + 1); //buffer is not big enough. size up by 1 byte.
+			newdigits = (char*)realloc(result.digits, (size_t)result.length + 1); //buffer is not big enough. size up by 1 byte.
 			if (newdigits == NULL) {
 				cout << "Memory reallocation failed, the program will terminate." << endl;
 				exit(0);
@@ -193,30 +195,30 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		}
 		//digits of ua is always bigger than those of ub
 		result.length = ua.length;
-		char* newdigits = (char*)realloc(result.digits, size_t(result.length) + 1); //for terminal 0
+		char* newdigits = (char*)realloc(result.digits, (size_t)(result.length + 1)); //for terminal 0
 		if (newdigits == NULL) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
 		}
 		else result.digits = newdigits;
 		int sub; //ua.digits[i] - ub.digits[i] (number form, not one digit char.)
-		for (unsigned int i = 0; i < ua.length; i++) {
+		for (unsigned int i = 0; i < result.length; i++) {
 			sub = ua.digits[i] - (i < ub.length ? ub.digits[i] : '0');
 			if (sub < 0) { //13 - 7, i = 0 ==>> 3 - 7 < 0
 				sub += 10;
-				ua.digits[i + 1] -= 1;
-				//DON'T care if ua.digits[i+1] WAS 0.
+				ua.digits[i + 1] -= 1; //no violation. sub is always bigger than or same as 0.(ua > ub)
+				//DON'T care if ua.digits[i+1] WAS 0
 				//it will become -1, and then fixed after next iteration.
 				//ua will disappear after the addition.
 			}
 			result.digits[i] = sub + '0'; //num to digit
 		}
-		for (unsigned int i = ua.length - 1; i > 0; i--) {
+		for (unsigned int i = result.length - 1; i > 0; i--) {
 			if (result.digits[i] == '0')
 				result.length--;
 			else break;
 		}
-		newdigits = (char*)realloc(result.digits, size_t(result.length) + 1);
+		newdigits = (char*)realloc(result.digits, (size_t)result.length + 1);
 		if (newdigits == 0) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -235,23 +237,38 @@ inf_int operator-(const inf_int& a, const inf_int& b) {
 inf_int operator*(const inf_int& a, const inf_int& b) {
 	inf_int result;
 	inf_int partial;
-	partial.length = a.length * b.length + 1; //for carry
-	char* newdigits = (char*)realloc(partial.digits, size_t(partial.length) + 1); //for terminal 0
+	partial.length = a.length + b.length; //for carry
+	char* newdigits = (char*)realloc(partial.digits, (size_t)partial.length + 1); //for terminal 0
 	if (newdigits == NULL) {
 		cout << "Memory reallocation failed, the program will terminate." << endl;
 		exit(0);
 	}else partial.digits = newdigits;
-	int temp = 0;
-	int carry = 0;
-	for (unsigned int i = 0; i < b.length; i++) {
-		for (unsigned int j = 0; j < a.length; j++) {
-			temp = (b.digits[i] - '0') * (a.digits[j] - '0') + carry;
-			carry = temp / 10;
-			partial.digits[j + i] = temp % 10 + '0';
+	unsigned int i, j;
+	int temp, carry;
+	for (j = 0; j < b.length; j++) {
+		temp = 0;
+		carry = 0;
+		for (i = 0; i < j; i++) {
+			partial.digits[i] = '0';
 		}
-		cout << "partial = " << partial << endl;
+		for (; i < a.length + j; i++) {
+			temp = (a.digits[i - j] - '0') * (b.digits[j] - '0') + carry;
+			carry = temp / 10;
+			partial.digits[i] = (temp % 10) + '0';
+		}
+		partial.digits[i] = carry + '0';
+		partial.length = j + a.length + 1;
+		for (; i > 0; i--) {
+			if (partial.digits[i] == '0')
+				partial.length--;
+			else break;
+		}
+		partial.digits[partial.length] = 0;
 		result = result + partial;
 	}
+	result.thesign = !(a.thesign ^ b.thesign);
+	if (result.digits[0] == '0' && result.length == 1)
+		result.thesign = true;
 	return result;
 }
 
@@ -277,3 +294,4 @@ istream& operator>>(istream& in, inf_int& data) {
 	}
 	return in;
 }
+ 

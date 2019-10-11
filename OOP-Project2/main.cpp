@@ -5,9 +5,69 @@
 #include <cstdlib>
 #include <random>
 #include <ctime>
+#pragma warning(error:6385)
+#pragma warning(error:6386)
 
 using namespace std;
+void add_test() {
+	bool fail = false;
+	cout << "===================== addition test =======================================" << endl;
+	for (int i = 0; i < 1000000; i++) {
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
+		string temp;
+		if (inf_int(to_string(long long(a) + long long(b)).c_str()) != inf_int(a) + inf_int(b)) { // a + b overflows often.
+			fail = true;
+			cout << a << " + " << b << " is " << (a)+long long(b) << ", not " << inf_int(a) + inf_int(b) << endl;
+			cin >> temp;
+		}
+	}
+	if (!fail) cout << "success." << endl;
+}
 
+void sub_test() {
+	bool fail = false;
+	cout << "===================== subtraction test =======================================" << endl;
+	for (int i = 0; i < 1000000; i++) {
+		string temp;
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
+		if (inf_int(a - b) != inf_int(a) - inf_int(b)) {
+			fail = true;
+			cout << a << " - " << b << " is " << a - b << ", not " << inf_int(a) - inf_int(b) << endl;
+			cin >> temp;
+		}
+	}
+	if (!fail) cout << "success." << endl;
+}
+
+void comp_test() {
+	bool fail = false;
+	cout << "===================== compare test =======================================" << endl;
+	for (int i = 0; i < 1000000; i++) {
+		string temp;
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
+		if ((inf_int(a) > inf_int(b)) != (a > b)) {
+			fail = true;
+			cout << a << " > " << b << " is " << (a > b) << ", not " << (inf_int(a) > inf_int(b)) << endl;
+			cin >> temp;
+		}
+	}
+	if (!fail) cout << "success." << endl;
+}
+
+void mult_test() {
+	bool fail = false;
+	cout << "===================== multiplication test =======================================" << endl;
+	for (int i = 0; i < 1000000; i++) {
+		string temp;
+		short a = (rand() << 1) + (rand() % 2), b = (rand() << 1) + (rand() % 2);
+		if ((inf_int(a) * inf_int(b)) != inf_int(int(a) * int(b))) {
+			fail = true;
+			cout << a << " * " << b << " is " << (a * b) << ", not " << (inf_int(a) * inf_int(b)) << endl;
+			cin >> temp;
+		}
+	}
+	if (!fail) cout << "success." << endl;
+}
 int main()
 {
 	srand(unsigned int(time(NULL)));
@@ -33,55 +93,18 @@ int main()
 	cout << inf_int(INT_MIN) - inf_int(INT_MIN + 1) << endl;
 
 	cout << inf_int("123456789") + inf_int("9876543210") << endl;
-	bool fail = false;
-	cout << "===================== addition test =======================================" << endl;
-	for (int i = 0; i < 1000000; i++) {
-		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
-		string temp;
-		if (inf_int(to_string(long long(a) + long long(b)).c_str()) != inf_int(a) + inf_int(b)) { // a + b overflows often.
-			fail = true;
-			cout << a << " + " << b << " is " << (a) + long long(b) << ", not " << inf_int(a) + inf_int(b) << endl;
-			cin >> temp;
-		}
-	}
-	if (!fail) cout << "success." << endl;
-	fail = false;
-	cout << "===================== subtraction test =======================================" << endl;
-	for (int i = 0; i < 1000000; i++) {
-		string temp;
-		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
-		if (inf_int(a - b) != inf_int(a) - inf_int(b)) {
-			fail = true;
-			cout << a << " - " << b << " is " << a - b << ", not " << inf_int(a) - inf_int(b) << endl;
-			cin >> temp;
-		}
-	}
-	if (!fail) cout << "success." << endl;
-	fail = false;
-	cout << "===================== compare test =======================================" << endl;
-	for (int i = 0; i < 1000000; i++) {
-		string temp;
-		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
-		if ((inf_int(a) > inf_int(b)) != (a > b)) {
-			fail = true;
-			cout << a << " > " << b << " is " << (a > b) << ", not " << (inf_int(a) > inf_int(b)) << endl;
-			cin >> temp;
-		}
-	}
-	if (!fail) cout << "success." << endl;
-	fail = false;
-	cout << "===================== multiplication test =======================================" << endl;
-	for (int i = 0; i < 1000000; i++) {
-		string temp;
-		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
-		if ((inf_int(a) * inf_int(b)) != (long long(a) * long long(b))) {
-			fail = true;
-			cout << a << " * " << b << " is " << (a * b) << ", not " << (inf_int(a) * inf_int(b)) << endl;
-			cin >> temp;
-		}
-	}
-	if (!fail) cout << "not tested yet." << endl;
-	fail = false;
+	cout << "a = ";
+	cin >> a;
+	cout << "b = ";
+	cin >> b;
+	cout << "a + b = " << a + b << endl;
+	cout << "a - b = " << a - b << endl;
+	cout << "a < b = " << (a < b) << endl;
+	cout << "a * b = " << a * b << endl;
+	add_test();
+	sub_test();
+	comp_test();
+	mult_test();
 	// cin >> g ;   // not required
 
 	//a = b * c;
