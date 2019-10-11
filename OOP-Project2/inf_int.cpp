@@ -47,7 +47,7 @@ inf_int::inf_int(int dec){
 }
 inf_int::inf_int(const char* data) {
 	int readfrom = 0;
-	if (strlen(data) == 1 && data[0] == '0') { //data == "0"
+	if ((strcmp(data, "0") == 0) || (strcmp(data, "-0") == 0)) { //data == "0"
 		thesign = true;
 		length = 1;
 		digits = new char[2]{'0', 0};
