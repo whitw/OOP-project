@@ -19,7 +19,7 @@ inf_int::inf_int(int dec){
 	}
 	else if (dec > 0) {
 		int temp = dec;
-		int i;
+		size_t i;
 		thesign = true;
 		for (i = 0;temp != 0; i++) {
 			data[i] = temp % 10 + '0';
@@ -32,7 +32,7 @@ inf_int::inf_int(int dec){
 	}
 	else {
 		int temp = dec; //I won't use -dec, because it will cause error if dec is -2147483648
-		int i;
+		size_t i;
 		thesign = false;
 		for (i = 0; temp != 0; i++) {
 			data[i] = -(temp % 10) + '0';
@@ -66,7 +66,7 @@ inf_int::inf_int(const char* data) {
 	else throw -1;
 	data += readfrom; // leave digits only. e.g. ['1','2','3','4','5','\0']
 	length = strlen(data); //e.g. 5
-	digits = new char[length + 1];
+	digits = new char[size_t(length) + 1];
 	for (unsigned int i = 0; i < length; i++) {
 		digits[i] = data[length - 1 - i];
 		if (data[length - 1 - i] < '0' || data[length - 1 - i] > '9')
@@ -75,7 +75,11 @@ inf_int::inf_int(const char* data) {
 	digits[length] = 0;
 }
 inf_int::inf_int(const inf_int& from) { // copy constructor
-	*this = from;
+	length = from.length;
+	thesign = from.thesign;
+	digits = new char[size_t(length) + 1];
+	memcpy(digits, from.digits, length);
+	digits[length] = 0;
 }
 inf_int::~inf_int() { delete digits; } // destructor
 
@@ -85,7 +89,13 @@ inf_int::~inf_int() { delete digits; } // destructor
 inf_int& inf_int::operator=(const inf_int& from) {
 	length = from.length;
 	thesign = from.thesign;
-	digits = new char[length + 1];
+	char* newdigits;
+	newdigits = (char*)realloc(digits, size_t(length) + 1);
+	if (newdigits == NULL) {
+		cout << "Memory reallocation failed, the program will terminate." << endl;
+		exit(0);
+	}
+	else digits = newdigits;
 	memcpy(digits, from.digits, length);
 	digits[length] = 0;
 	return *this;
@@ -140,7 +150,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		int temp_sum = 0;
 		result.thesign = a.thesign;
 		result.length = max(a.length, b.length);
-		char* newdigits = (char*)realloc(result.digits, result.length + 1);
+		char* newdigits = (char*)realloc(result.digits, size_t(result.length) + 1);
 		if (newdigits == NULL) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -157,7 +167,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		if (carry != 0) {
 			result.digits[result.length] = carry + '0';
 			result.length++;
-			newdigits = (char*)realloc(result.digits, result.length + 1); //buffer is not big enough. size up by 1 byte.
+			newdigits = (char*)realloc(result.digits, size_t(result.length) + 1); //buffer is not big enough. size up by 1 byte.
 			if (newdigits == NULL) {
 				cout << "Memory reallocation failed, the program will terminate." << endl;
 				exit(0);
@@ -183,7 +193,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		}
 		//digits of ua is always bigger than those of ub
 		result.length = ua.length;
-		char* newdigits = (char*)realloc(result.digits, result.length + 1);
+		char* newdigits = (char*)realloc(result.digits, size_t(result.length) + 1); //for terminal 0
 		if (newdigits == NULL) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -201,10 +211,12 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			}
 			result.digits[i] = sub + '0'; //num to digit
 		}
-		for (unsigned int i = ua.length - 1; i > 0 && result.digits[i] == '0'; i--) {
-			result.length--;
+		for (unsigned int i = ua.length - 1; i > 0; i--) {
+			if (result.digits[i] == '0')
+				result.length--;
+			else break;
 		}
-		newdigits = (char*)realloc(result.digits, result.length + 1);
+		newdigits = (char*)realloc(result.digits, size_t(result.length) + 1);
 		if (newdigits == 0) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -221,7 +233,26 @@ inf_int operator-(const inf_int& a, const inf_int& b) {
 }
 
 inf_int operator*(const inf_int& a, const inf_int& b) {
-	return inf_int(0);
+	inf_int result;
+	inf_int partial;
+	partial.length = a.length * b.length + 1; //for carry
+	char* newdigits = (char*)realloc(partial.digits, size_t(partial.length) + 1); //for terminal 0
+	if (newdigits == NULL) {
+		cout << "Memory reallocation failed, the program will terminate." << endl;
+		exit(0);
+	}else partial.digits = newdigits;
+	int temp = 0;
+	int carry = 0;
+	for (unsigned int i = 0; i < b.length; i++) {
+		for (unsigned int j = 0; j < a.length; j++) {
+			temp = (b.digits[i] - '0') * (a.digits[j] - '0') + carry;
+			carry = temp / 10;
+			partial.digits[j + i] = temp % 10 + '0';
+		}
+		cout << "partial = " << partial << endl;
+		result = result + partial;
+	}
+	return result;
 }
 
 

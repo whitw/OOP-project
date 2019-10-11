@@ -19,7 +19,7 @@ int main()
 	//inf_int f("9321111111111122222822222223333333333NOTANUMBER34444444444455555555559"); //error
 	inf_int f("899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998");
 	inf_int g("-899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998");
-	inf_int h("+32768");
+	inf_int h = inf_int("+32768");
 	cout << a << endl;
 	cout << b << endl;
 	cout << c << endl;
@@ -36,7 +36,7 @@ int main()
 	bool fail = false;
 	cout << "===================== addition test =======================================" << endl;
 	for (int i = 0; i < 1000000; i++) {
-		int a = rand() + rand() << 15, b = rand() + (rand() << 15);
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
 		string temp;
 		if (inf_int(to_string(long long(a) + long long(b)).c_str()) != inf_int(a) + inf_int(b)) { // a + b overflows often.
 			fail = true;
@@ -49,7 +49,7 @@ int main()
 	cout << "===================== subtraction test =======================================" << endl;
 	for (int i = 0; i < 1000000; i++) {
 		string temp;
-		int a = rand() + rand() << 15, b = rand() + (rand() << 15);
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
 		if (inf_int(a - b) != inf_int(a) - inf_int(b)) {
 			fail = true;
 			cout << a << " - " << b << " is " << a - b << ", not " << inf_int(a) - inf_int(b) << endl;
@@ -61,7 +61,7 @@ int main()
 	cout << "===================== compare test =======================================" << endl;
 	for (int i = 0; i < 1000000; i++) {
 		string temp;
-		int a = rand() + rand() << 15, b = rand() + (rand() << 15);
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
 		if ((inf_int(a) > inf_int(b)) != (a > b)) {
 			fail = true;
 			cout << a << " > " << b << " is " << (a > b) << ", not " << (inf_int(a) > inf_int(b)) << endl;
@@ -73,8 +73,8 @@ int main()
 	cout << "===================== multiplication test =======================================" << endl;
 	for (int i = 0; i < 1000000; i++) {
 		string temp;
-		int a = rand() + rand() << 15, b = rand() + (rand() << 15);
-		if ((inf_int(a) * inf_int(b)) != (a * b)) {
+		int a = rand() + (rand() << 15), b = rand() + (rand() << 15);
+		if ((inf_int(a) * inf_int(b)) != (long long(a) * long long(b))) {
 			fail = true;
 			cout << a << " * " << b << " is " << (a * b) << ", not " << (inf_int(a) * inf_int(b)) << endl;
 			cin >> temp;
