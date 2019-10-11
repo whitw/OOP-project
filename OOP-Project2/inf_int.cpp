@@ -134,10 +134,10 @@ bool operator<(const inf_int& a, const inf_int& b) {
 }
 
 inf_int operator+(const inf_int& a, const inf_int& b) {
-	int carry = 0;
-	int temp_sum = 0;
 	inf_int result;
 	if (a.thesign == b.thesign) {
+		int carry = 0;
+		int temp_sum = 0;
 		result.thesign = a.thesign;
 		result.length = max(a.length, b.length);
 		char* newdigits = (char*)realloc(result.digits, result.length + 1);
@@ -146,7 +146,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			exit(0);
 		}
 		else result.digits = newdigits;
-		for (unsigned int i = 0; i < result.length + 1; i++) {
+		for (unsigned int i = 0; i < result.length; i++) {
 			char adigit = i < a.length ? a.digits[i] : '0';
 			char bdigit = i < b.length ? b.digits[i] : '0';
 
@@ -154,7 +154,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			result.digits[i] = (temp_sum % 10) + '0';
 			carry = temp_sum / 10;
 		}
-		if (carry) {
+		if (carry != 0) {
 			result.digits[result.length] = carry + '0';
 			result.length++;
 			newdigits = (char*)realloc(result.digits, result.length + 1); //buffer is not big enough. size up by 1 byte.
