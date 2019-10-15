@@ -5,8 +5,6 @@
 #include <cstdlib>
 #include <random>
 #include <ctime>
-#pragma warning(error:6385)
-#pragma warning(error:6386)
 
 using namespace std;
 void add_test() {
@@ -93,10 +91,24 @@ int main()
 	cout << inf_int(INT_MIN) - inf_int(INT_MIN + 1) << endl;
 
 	cout << inf_int("123456789") + inf_int("9876543210") << endl;
-	cout << "a = ";
-	cin >> a;
-	cout << "b = ";
-	cin >> b;
+	while(true) {
+		cout << "a = ";
+		cin >> a;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(1024, '\n');
+		}
+		else break;
+	}
+	while (true) {
+		cout << "b = ";
+		cin >> b;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(1024, '\n');
+		}
+		else break;
+	}
 	cout << "a + b = " << a + b << endl;
 	cout << "a - b = " << a - b << endl;
 	cout << "a < b = " << (a < b) << endl;

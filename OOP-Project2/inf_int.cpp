@@ -1,10 +1,9 @@
 #include "inf_int.h"
-#pragma warning(error:6385)
-#pragma warning(error:6386)
 
 using namespace std;
 
 #define max(a,b) ((a)>(b)?(a):(b))
+#include <string>
 /****************************
         constructor
 *****************************/
@@ -46,6 +45,7 @@ inf_int::inf_int(int dec){
 	}
 }
 inf_int::inf_int(const char* data) {
+	
 	int readfrom = 0;
 	if ((strcmp(data, "0") == 0) || (strcmp(data, "-0") == 0)) { //data == "0"
 		thesign = true;
@@ -62,6 +62,8 @@ inf_int::inf_int(const char* data) {
 		readfrom = 1;
 	}
 	else if (data[0] == '-') {
+		if (data[1] < '1' || data[1] > '9') // something like "-003". it is not a number.
+			throw - 1;
 		thesign = false;
 		readfrom = 1;
 	}
@@ -195,7 +197,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		}
 		//digits of ua is always bigger than those of ub
 		result.length = ua.length;
-		char* newdigits = (char*)realloc(result.digits, (size_t)(result.length + 1)); //for terminal 0
+		char* newdigits = (char*)realloc(result.digits, (size_t)result.length + 1); //for terminal 0
 		if (newdigits == NULL) {
 			cout << "Memory reallocation failed, the program will terminate." << endl;
 			exit(0);
@@ -235,8 +237,8 @@ inf_int operator-(const inf_int& a, const inf_int& b) {
 }
 
 inf_int operator*(const inf_int& a, const inf_int& b) {
-	inf_int result;
-	inf_int partial;
+	inf_int result(0);
+	inf_int partial(0);
 	partial.length = a.length + b.length; //for carry
 	char* newdigits = (char*)realloc(partial.digits, (size_t)partial.length + 1); //for terminal 0
 	if (newdigits == NULL) {
@@ -244,30 +246,30 @@ inf_int operator*(const inf_int& a, const inf_int& b) {
 		exit(0);
 	}else partial.digits = newdigits;
 	unsigned int i, j;
-	int temp, carry;
-	for (j = 0; j < b.length; j++) {
+	int temp, carry; // 12345 * 9876
+	for (j = 0; j < b.length; j++) { // 12345 * 6 => 12345 * 70 => 12345 * 800 => 12345 * 9000
 		temp = 0;
 		carry = 0;
-		for (i = 0; i < j; i++) {
+		for (i = 0; i < j; i++) { //7 => 70, 8 => 800 and so on..
 			partial.digits[i] = '0';
 		}
-		for (; i < a.length + j; i++) {
+		for (; i < a.length + j; i++) { //5 * 6 => 4 * 6 => 3 * 6 and so on...
 			temp = (a.digits[i - j] - '0') * (b.digits[j] - '0') + carry;
 			carry = temp / 10;
 			partial.digits[i] = (temp % 10) + '0';
 		}
-		partial.digits[i] = carry + '0';
+		partial.digits[i] = carry + '0'; //last it. happens if 1 * 6 > 10
 		partial.length = j + a.length + 1;
-		for (; i > 0; i--) {
+		for (; i > 0; i--) {//if length is too long, shorten them.
 			if (partial.digits[i] == '0')
 				partial.length--;
 			else break;
 		}
-		partial.digits[partial.length] = 0;
+		partial.digits[partial.length] = 0; // 0-terminal string
 		result = result + partial;
 	}
 	result.thesign = !(a.thesign ^ b.thesign);
-	if (result.digits[0] == '0' && result.length == 1)
+	if (result.digits[0] == '0' && result.length == 1) // without this, 0 * -3 will be -0.
 		result.thesign = true;
 	return result;
 }
